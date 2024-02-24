@@ -44,3 +44,19 @@ LEFT JOIN BIT_DB.customers AS cust
 ON feb.OrderID=cust.order_id
 WHERE feb.quantity>2
 AND length(orderid) = 6;
+
+-List the number of items ordered starting on 02/18/19 and after that. 
+SELECT sum(quantity)
+FROM BIT_DB.FebSales 
+WHERE orderdate like '02/18/19%';
+
+-List all the products sold in February that end in ".99."
+SELECT distinct Product, Price
+FROM BIT_DB.FebSales 
+WHERE Price like '%.99';
+
+-List all the products sold in Los Angeles in February, and include how many of each were sold. 
+SELECT sum(quantity),Product
+FROM BIT_DB.FebSales 
+WHERE location like "%Los Angeles%"
+GROUP BY Product;
