@@ -1,0 +1,57 @@
+#In this SQL, I'm querying a database with multiple tables in it to quantify statistics about  a digital media store.
+
+
+SELECT *
+FROM chinook.customers;
+
+-Show Customers (their full names, customer ID, and country) who are not in the US. 
+SELECT FirstName, LastName, CustomerId,Country
+FROM chinook.customers
+WHERE country<>"USA";
+
+-Show only the Customers from Brazil.
+SELECT *
+FROM chinook.customers
+WHERE country="Brazil";
+
+-Find the Invoices of customers who are from Brazil. The resulting table should show the customer's full name, Invoice ID, Date of the invoice, and billing country.
+SELECT cust.Firstname, cust.Lastname, 
+invoice.CustomerId, invoice.InvoiceDate, invoice.BillingCountry
+FROM chinook.customers AS cust
+LEFT JOIN chinook.invoices AS invoice
+ON cust.CustomerId=invoice.CustomerId
+WHERE country="Brazil";
+
+-Show the Employees who are Sales Agents.
+SELECT FirstName, LastName, EmployeeId, Title
+FROM chinook.employees
+WHERE title="Sales Support Agent";
+
+-Find a unique/distinct list of billing countries from the Invoice table.
+SELECT DISTINCT BillingCountry
+FROM chinook.invoices;
+
+-Provide a query that shows the invoices associated with each sales agent. The resulting table should include the Sales Agent's full name.
+SELECT e.LastName, e.Firstname, i.InvoiceId, e.Title
+FROM chinook.Employees e 
+JOIN chinook.Customers c ON c.SupportRepId = e.EmployeeId
+JOIN chinook.Invoices i ON i.CustomerId = c.CustomerId;
+
+-
+SELECT e.LastName, e.Firstname, c.LastName, c.FirstName, c.Country, i.Total
+FROM chinook.Employees AS e 
+JOIN chinook.Customers AS c ON c.SupportRepId = e.EmployeeId
+JOIN chinook.Invoices AS i ON i.CustomerId = c.CustomerId;
+
+SELECT COUNT(*)
+FROM chinook.invoices
+WHERE InvoiceDate BETWEEN "2009-01-01" AND "2009-12-31";
+
+SELECT SUM(Total)
+FROM chinook.invoices
+WHERE InvoiceDate BETWEEN "2009-01-01" AND "2009-12-31";
+
+SELECT t.Name, i.InvoiceLineId
+FROM chinook.Invoice_items AS i
+JOIN chinook.Tracks AS t 
+ON i.TrackId = t.TrackId;
